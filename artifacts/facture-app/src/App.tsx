@@ -115,6 +115,20 @@ function App() {
     setDeliveryError(false);
   };
 
+  // ── Custom Template Selector Handler ──────────────
+  const handleTemplateChange = (id: TemplateType) => {
+    setSelectedTemplate(id);
+    setDeliveryError(false);
+    
+    // Si on passe sur un template livraison ET qu'on est sur mobile (< 1024px pour la grille lg)
+    if (id.startsWith("livraison") && window.innerWidth < 1024) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  };
+
   // ── Download ──────────────────────────────────────
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -122,6 +136,10 @@ function App() {
     if (isLivraisonTemplate(selectedTemplate)) {
       if (!clientName.trim() || !clientPhone.trim() || !clientAddress.trim()) {
         setDeliveryError(true);
+        // Remonte pour afficher l'erreur si besoin sur mobile
+        if (window.innerWidth < 1024) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
         return;
       }
     }
@@ -439,7 +457,7 @@ function App() {
   // ── Template selector button (Fixed Centered Previews) ──────────────────────
   const TemplateBtn = ({ id, label, preview }: { id: TemplateType; label: string; preview: React.ReactNode }) => (
     <button
-      onClick={() => { setSelectedTemplate(id); setDeliveryError(false); }}
+      onClick={() => handleTemplateChange(id)}
       className={cn("flex flex-col items-center gap-2 p-2 border rounded-lg transition-all w-full",
         selectedTemplate === id ? "border-primary ring-2 ring-primary/20 bg-primary/5" : "hover:bg-muted",
       )}
@@ -468,6 +486,30 @@ function App() {
             </div>
           </div>
 
+          {/* Delivery fields — SHOWN FIRST when a delivery template is selected */}
+          {isLivraisonTemplate(selectedTemplate) && (
+            <div className="bg-card border rounded-xl p-5 md:p-6 shadow-sm flex flex-col gap-4 ring-2 ring-primary/10">
+              <h2 className="text-lg font-semibold flex items-center gap-2">🚚 Informations de livraison</h2>
+              {deliveryError && (
+                <p className="text-sm text-red-500 font-medium">⚠️ Veuillez remplir toutes les informations de livraison avant de générer la facture.</p>
+              )}
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <Label>👤 Nom et prénom du client</Label>
+                  <Input placeholder="Ex: Jean Dupont" value={clientName} onChange={(e) => { setClientName(e.target.value); setDeliveryError(false); }} />
+                </div>
+                <div className="space-y-2">
+                  <Label>📞 Numéro de téléphone</Label>
+                  <Input placeholder="Ex: 01 96 00 00 00" value={clientPhone} onChange={(e) => { setClientPhone(e.target.value); setDeliveryError(false); }} />
+                </div>
+                <div className="space-y-2">
+                  <Label>📍 Adresse / emplacement de livraison</Label>
+                  <Input placeholder="Ex: Cotonou, Cadjehoun" value={clientAddress} onChange={(e) => { setClientAddress(e.target.value); setDeliveryError(false); }} />
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Shop & Reseller */}
           <div className="bg-card border rounded-xl p-5 md:p-6 shadow-sm flex flex-col gap-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -489,30 +531,6 @@ function App() {
               </div>
             </div>
           </div>
-
-          {/* Delivery fields — shown only for livraison templates */}
-          {isLivraisonTemplate(selectedTemplate) && (
-            <div className="bg-card border rounded-xl p-5 md:p-6 shadow-sm flex flex-col gap-4">
-              <h2 className="text-lg font-semibold">🚚 Informations de livraison</h2>
-              {deliveryError && (
-                <p className="text-sm text-red-500 font-medium">⚠️ Veuillez remplir toutes les informations de livraison avant de générer la facture.</p>
-              )}
-              <div className="space-y-3">
-                <div className="space-y-2">
-                  <Label>👤 Nom et prénom du client</Label>
-                  <Input placeholder="Ex: Jean Dupont" value={clientName} onChange={(e) => { setClientName(e.target.value); setDeliveryError(false); }} />
-                </div>
-                <div className="space-y-2">
-                  <Label>📞 Numéro de téléphone</Label>
-                  <Input placeholder="Ex: 01 96 00 00 00" value={clientPhone} onChange={(e) => { setClientPhone(e.target.value); setDeliveryError(false); }} />
-                </div>
-                <div className="space-y-2">
-                  <Label>📍 Adresse / emplacement de livraison</Label>
-                  <Input placeholder="Ex: Cotonou, Cadjehoun" value={clientAddress} onChange={(e) => { setClientAddress(e.target.value); setDeliveryError(false); }} />
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Articles */}
           <div className="bg-card border rounded-xl p-5 md:p-6 shadow-sm flex flex-col gap-4">
@@ -597,7 +615,7 @@ function App() {
               } />
             </div>
 
-            {/* Livraison section with perfectly centered preview layouts */}
+            {/* Livraison section */}
             <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-widest">🚚 Factures de livraison</p>
             <div className="grid grid-cols-3 gap-2">
               <TemplateBtn id="livraison-classic" label="Liv. Classic" preview={
@@ -639,18 +657,16 @@ function App() {
           </div>
 
           {/* Action buttons */}
-          <div className="grid grid-cols-1 gap-3">
-            <Button onClick={handleDownload} variant="default" className="w-full gap-2 py-6">
-              <Download className="h-5 w-5" />
-              <span className="font-semibold">📥 Télécharger la facture</span>
+          <div className="flex flex-col gap-3">
+            <Button size="lg" className="w-full gap-2 text-base font-semibold" onClick={handleDownload}>
+              <Download className="h-5 w-5" /> <span>Télécharger l'image</span>
             </Button>
-            <Button onClick={handleNewInvoice} variant="outline" className="w-full gap-2 py-6">
-              <RefreshCw className="h-4 w-4" />
-              <span>Nouvelle facture</span>
+            <Button variant="outline" size="sm" className="w-full gap-2 text-muted-foreground" onClick={handleNewInvoice}>
+              <RefreshCw className="h-4 w-4" /> <span>Nouvelle facture</span>
             </Button>
           </div>
-        </div>
 
+        </div>
       </div>
       <Toaster />
     </div>

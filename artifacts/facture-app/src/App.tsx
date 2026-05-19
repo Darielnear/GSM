@@ -8,7 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Plus, Trash2, Download, FileText, RefreshCw, ChevronDown } from "lucide-react";
+import { 
+  Plus, 
+  Trash2, 
+  Download, 
+  FileText, 
+  RefreshCw, 
+  ChevronDown,
+  User,
+  Phone,
+  MapPin
+} from "lucide-react";
 
 type SelectedItem = {
   id: string;
@@ -363,8 +373,8 @@ function App() {
         )}
         style={{ backgroundColor: isDark ? "#0f172a" : "#ffffff" }}
       >
-        {/* Banner */}
-        <div className="px-6 py-5 text-white text-center" style={{ background: lv.banner }}>
+        {/* Banner with enhanced padding */}
+        <div className="px-6 py-6 text-white text-center" style={{ background: lv.banner }}>
           <h1 className="text-2xl font-black tracking-tight uppercase mb-1">{shopName || "NOM DE LA BOUTIQUE"}</h1>
           <p className="text-xs font-bold mb-2 opacity-90">📞 01 96 95 96 04</p>
           <p className="text-lg font-black tracking-widest mb-2">🚚 BON DE LIVRAISON</p>
@@ -372,23 +382,29 @@ function App() {
           <p className="text-xs opacity-80">{new Date(invoiceDate).toLocaleString("fr-FR", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).replace(",", " à")}</p>
         </div>
 
-        <div className="px-6 pt-4 pb-6 flex flex-col flex-1">
-          {/* Revendeur */}
-          <p className="font-medium text-sm mb-4">
-            Revendeur : <span className="font-bold" style={{ color: lv.accent }}>{resellerName || "-"}</span>
-          </p>
-
-          {/* Destinataire */}
-          <div className="mb-4 rounded-lg overflow-hidden" style={{
-            background: isDark ? "rgba(255,255,255,0.05)" : "#f9f9f9",
+        <div className="px-6 pt-5 pb-6 flex flex-col flex-1">
+          {/* Destinataire styled with theme-matching uniform Lucide Icons */}
+          <div className="mb-5 rounded-lg overflow-hidden" style={{
+            background: isDark ? "rgba(255,255,255,0.04)" : "#f8fafc",
             borderLeft: `4px solid ${lv.border}`,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
           }}>
-            <p className="font-bold text-xs px-4 pt-3 pb-1" style={{ color: lv.accent }}>📦 DESTINATAIRE</p>
-            <div className="px-4 pb-3 space-y-1">
-              <p className="text-sm font-semibold">👤 {clientName || <span className="opacity-40 font-normal italic">Nom du client</span>}</p>
-              <p className="text-sm font-semibold">📞 {clientPhone || <span className="opacity-40 font-normal italic">Téléphone</span>}</p>
-              <p className="text-sm font-semibold">📍 {clientAddress || <span className="opacity-40 font-normal italic">Adresse de livraison</span>}</p>
+            <p className="font-bold text-xs px-4 pt-3 pb-2 tracking-wider flex items-center gap-1.5" style={{ color: lv.accent }}>
+              <span className="text-xs">BOX</span> DESTINATAIRE
+            </p>
+            <div className="px-4 pb-4 space-y-2.5">
+              <p className="text-sm font-semibold flex items-center gap-2">
+                <User className="h-4 w-4 shrink-0" style={{ color: lv.accent }} /> 
+                {clientName || <span className="opacity-40 font-normal italic">Nom du client</span>}
+              </p>
+              <p className="text-sm font-semibold flex items-center gap-2">
+                <Phone className="h-4 w-4 shrink-0" style={{ color: lv.accent }} /> 
+                {clientPhone || <span className="opacity-40 font-normal italic">Téléphone</span>}
+              </p>
+              <p className="text-sm font-semibold flex items-center gap-2">
+                <MapPin className="h-4 w-4 shrink-0" style={{ color: lv.accent }} /> 
+                {clientAddress || <span className="opacity-40 font-normal italic">Adresse de livraison</span>}
+              </p>
             </div>
           </div>
 
@@ -420,18 +436,18 @@ function App() {
     );
   };
 
-  // ── Template selector button ──────────────────────
+  // ── Template selector button (Fixed Centered Previews) ──────────────────────
   const TemplateBtn = ({ id, label, preview }: { id: TemplateType; label: string; preview: React.ReactNode }) => (
     <button
       onClick={() => { setSelectedTemplate(id); setDeliveryError(false); }}
-      className={cn("flex flex-col items-center gap-2 p-2 border rounded-lg transition-all",
+      className={cn("flex flex-col items-center gap-2 p-2 border rounded-lg transition-all w-full",
         selectedTemplate === id ? "border-primary ring-2 ring-primary/20 bg-primary/5" : "hover:bg-muted",
       )}
     >
-      <div className="w-full h-12 rounded shadow-sm overflow-hidden flex flex-col items-center justify-center gap-1 p-1">
+      <div className="w-full h-12 rounded shadow-sm overflow-hidden flex items-center justify-center bg-muted/40 p-1">
         {preview}
       </div>
-      <span className="text-xs font-medium">{label}</span>
+      <span className="text-xs font-medium text-center">{label}</span>
     </button>
   );
 
@@ -581,11 +597,11 @@ function App() {
               } />
             </div>
 
-            {/* Livraison section */}
+            {/* Livraison section with perfectly centered preview layouts */}
             <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-widest">🚚 Factures de livraison</p>
             <div className="grid grid-cols-3 gap-2">
               <TemplateBtn id="livraison-classic" label="Liv. Classic" preview={
-                <div className="w-full h-full rounded overflow-hidden" style={{ background: "linear-gradient(135deg,#059669,#047857)" }}>
+                <div className="w-full h-full rounded overflow-hidden flex flex-col" style={{ background: "linear-gradient(135deg,#059669,#047857)" }}>
                   <div className="h-1/2 flex items-center justify-center">
                     <div className="w-8 h-1 bg-white/90 rounded-full" />
                   </div>
@@ -595,7 +611,7 @@ function App() {
                 </div>
               } />
               <TemplateBtn id="livraison-dark" label="Liv. Dark" preview={
-                <div className="w-full h-full rounded overflow-hidden" style={{ background: "#0f172a" }}>
+                <div className="w-full h-full rounded overflow-hidden flex flex-col bg-[#0f172a]">
                   <div className="h-1/2 flex items-center justify-center" style={{ background: "linear-gradient(135deg,#0891b2,#0e7490)" }}>
                     <div className="w-8 h-1 bg-white/90 rounded-full" />
                   </div>
@@ -605,7 +621,7 @@ function App() {
                 </div>
               } />
               <TemplateBtn id="livraison-gold" label="Liv. Gold" preview={
-                <div className="w-full h-full rounded overflow-hidden bg-white">
+                <div className="w-full h-full rounded overflow-hidden flex flex-col bg-white">
                   <div className="h-1/2 flex items-center justify-center" style={{ background: "linear-gradient(135deg,#7c3aed,#6d28d9)" }}>
                     <div className="w-8 h-1 bg-white/90 rounded-full" />
                   </div>
@@ -629,23 +645,13 @@ function App() {
               <span className="font-semibold">📥 Télécharger la facture</span>
             </Button>
             <Button onClick={handleNewInvoice} variant="outline" className="w-full gap-2 py-6">
-              <RefreshCw className="h-5 w-5" />
-              <span className="font-semibold">Nouvelle facture</span>
+              <RefreshCw className="h-4 w-4" />
+              <span>Nouvelle facture</span>
             </Button>
           </div>
         </div>
-      </div>
 
-      {/* Footer signature */}
-      <div className="text-center py-6 mt-4 border-t">
-        <p className="text-[11px] text-muted-foreground">
-          Fait avec ❤️ par Honorat Dariel •{" "}
-          <a href="https://honorat-dev.vercel.app" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">
-            honorat-dev.vercel.app
-          </a>
-        </p>
       </div>
-
       <Toaster />
     </div>
   );

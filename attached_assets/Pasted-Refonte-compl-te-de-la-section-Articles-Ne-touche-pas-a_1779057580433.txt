@@ -1,0 +1,154 @@
+Refonte complète de la section Articles. 
+Ne touche pas au reste de l'application.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. STRUCTURE DU CATALOGUE
+
+Remplace la liste plate actuelle par une structure 
+par marque avec accordéon (clic sur la marque = 
+la liste de ses modèles s'ouvre/se ferme).
+
+Deux onglets principaux : "Mobile" | "PC"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. CATALOGUE MOBILE PAR MARQUE
+
+Tous les prix sont à 0 par défaut et modifiables.
+
+SAMSUNG :
+- Samsung A06 - Ram4 64Go
+- Samsung A06 - Ram4 128Go
+- Samsung A07 - Ram4 64Go
+- Samsung A07 - Ram4 128Go
+- Samsung A16 - Ram4 128Go
+- Samsung A16 - Ram6 128Go
+- Samsung A16 - Ram8 256Go
+- Samsung A17 - Ram4 128Go
+- Samsung A17 - Ram6 128Go
+- Samsung A17 - Ram8 256Go
+- Samsung A26 5G - Ram6 128Go
+- Samsung A26 5G - Ram8 256Go
+- Samsung A36 5G - Ram6 128Go
+- Samsung A36 5G - Ram8 256Go
+- Samsung A56 5G - Ram8 128Go
+- Samsung A56 5G - Ram8 256Go
+- Samsung A57 5G - Ram8 256Go
+- Samsung S26 Ultra - Ram12 512Go
+- Tablette Tab 11 - Ram4 64Go
+- Tablette Tab 11 - Ram8 128Go
+- Chargeur Samsung Type-C
+
+IPHONE :
+- iPhone 13 - 128Go
+- iPhone 13 - 256Go
+- iPhone 14 - 128Go
+- iPhone 14 - 256Go
+- iPhone 14 Plus - 128Go
+- iPhone 15 - 128Go
+- iPhone 15 - 256Go
+- iPhone 15 Plus - 128Go
+- iPhone 16 - 128Go
+- iPhone 16 - 256Go
+- iPhone 16 Plus - 128Go
+- iPhone 16 Pro - 256Go
+- iPhone 16 Pro Max - 256Go
+- iPhone 16 Pro Max - 512Go
+
+TECNO :
+- Tecno Spark 20
+- Tecno Spark 20 Pro
+- Tecno Spark 30
+- Tecno Spark 30 Pro
+- Tecno Camon 30
+- Tecno Camon 30 Pro
+- Tecno Phantom V Fold
+- Tecno Pova 6 Pro
+
+INFINIX :
+- Infinix Hot 40
+- Infinix Hot 40 Pro
+- Infinix Hot 50
+- Infinix Hot 50 Pro
+- Infinix Note 40
+- Infinix Note 40 Pro
+- Infinix Zero 40
+- Infinix Smart 8
+
+XIAOMI :
+- Xiaomi Redmi 13
+- Xiaomi Redmi 13C
+- Xiaomi Redmi Note 13
+- Xiaomi Redmi Note 13 Pro
+- Xiaomi 14T
+- Xiaomi 14T Pro
+- Xiaomi Poco X6
+- Xiaomi Poco X6 Pro
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. CATALOGUE PC PAR MARQUE
+
+Tous les prix à 0 par défaut et modifiables.
+
+HP :
+- HP Pavilion 15
+- HP EliteBook 840
+- HP ProBook 450
+- HP Victus 15
+- HP Envy 15
+
+DELL :
+- Dell Inspiron 15
+- Dell Inspiron 14
+- Dell Latitude 5540
+- Dell XPS 15
+- Dell Vostro 15
+
+LENOVO :
+- Lenovo IdeaPad 3
+- Lenovo IdeaPad 5
+- Lenovo ThinkPad E14
+- Lenovo ThinkPad X1 Carbon
+- Lenovo Legion 5
+
+ACER :
+- Acer Aspire 3
+- Acer Aspire 5
+- Acer Nitro 5
+- Acer Swift 3
+- Acer Predator Helios
+
+ASUS :
+- Asus VivoBook 15
+- Asus ZenBook 14
+- Asus ROG Strix G15
+- Asus TUF Gaming A15
+- Asus ExpertBook B1
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. COMPORTEMENT DE LA LISTE
+
+- Utilise des CHECKBOXES (pas des boutons radio)
+  → Plusieurs articles cochables en même temps
+- Quand un article est coché :
+  → Champ quantité (défaut : 1)
+  → Champ prix en FCFA (défaut : 0, modifiable)
+- Les marques sans aucun article coché sont
+  affichées fermées par défaut
+- La première marque de chaque onglet est
+  ouverte par défaut
+- Bouton "+ Ajouter un article personnalisé" 
+  toujours visible en bas de liste :
+  champ nom libre + champ prix libre
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. CORRECTIONS BUGS
+
+- Corriger l'affichage des articles sans prix
+  qui affichent juste "F" sans montant :
+  afficher "0 F" à la place
+- Toutes les cellules de prix dans le tableau
+  de la facture doivent avoir white-space: nowrap
+  pour éviter les coupures de ligne
+
+Ne touche pas aux templates de facture,
+au bouton télécharger, ni au reste du code.

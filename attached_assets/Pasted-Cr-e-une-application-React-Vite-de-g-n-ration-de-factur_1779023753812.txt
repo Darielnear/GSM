@@ -1,0 +1,124 @@
+Crée une application React (Vite) de génération de factures rapide 
+pour une boutique de téléphones et PC. Voici les specs exactes :
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. CATALOGUE D'ARTICLES
+(tableau JS en haut du fichier, modifiable facilement)
+
+ONGLET "Mobile" :
+- Samsung A06 - Ram4 64Go : 52 000 F
+- Samsung A06 - Ram4 128Go : 61 500 F
+- Samsung A07 - Ram4 64Go : 56 500 F
+- Samsung A07 - Ram4 128Go : 62 500 F
+- Samsung A16 - Ram4 128Go : 78 000 F
+- Samsung A16 - Ram6 128Go : 0 F (prix à saisir)
+- Samsung A16 - Ram8 256Go : 0 F (prix à saisir)
+- Samsung A17 - Ram4 128Go : 86 000 F
+- Samsung A17 - Ram6 128Go : 0 F (prix à saisir)
+- Samsung A17 - Ram8 256Go : 128 000 F
+- Samsung A26 5G - Ram6 128Go : 133 000 F
+- Samsung A26 5G - Ram8 256Go : 168 000 F
+- Samsung A36 5G - Ram6 128Go : 165 000 F
+- Samsung A36 5G - Ram8 256Go : 182 000 F
+- Samsung A56 5G - Ram8 128Go : 205 000 F
+- Samsung A56 5G - Ram8 256Go : 216 000 F
+- Samsung A57 5G - Ram8 256Go : 260 000 F
+- Samsung S26 Ultra - Ram12 512Go : 820 000 F
+- Tablette Samsung Tab 11 - Ram4 64Go : 70 000 F
+- Tablette Samsung Tab 11 - Ram8 128Go : 85 000 F
+- Chargeur Samsung Type-C : 6 000 F
+
+ONGLET "PC" :
+- HP Pavilion : 0 F (prix à saisir)
+- HP EliteBook : 0 F (prix à saisir)
+- Dell Inspiron : 0 F (prix à saisir)
+- Dell Latitude : 0 F (prix à saisir)
+- Lenovo IdeaPad : 0 F (prix à saisir)
+- Lenovo ThinkPad : 0 F (prix à saisir)
+- Acer Aspire : 0 F (prix à saisir)
+- Asus VivoBook : 0 F (prix à saisir)
+- Asus ZenBook : 0 F (prix à saisir)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. INTERFACE DE SAISIE
+
+Champs mémorisés entre les factures (localStorage) :
+- Nom de la boutique
+- Nom du revendeur
+
+Champs par facture :
+- Date et heure auto-remplie à l'ouverture, modifiable
+- Numéro de facture généré automatiquement : FAC-XXXXXX
+
+Sélection des articles :
+- Deux onglets bien visibles : "Mobile" | "PC"
+- Liste cochable avec checkbox pour chaque article
+- Quand un article est coché :
+  → champ quantité (valeur par défaut : 1)
+  → champ prix pré-rempli mais modifiable
+- Bouton "Ajouter un article personnalisé" :
+  champ nom libre + champ prix libre
+- Icône de suppression sur chaque article coché
+- Total général calculé automatiquement en temps réel
+- Résumé rapide sous la liste : X article(s) sélectionné(s) | Total : XX XXX F
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. FORMAT DE LA FACTURE GÉNÉRÉE
+
+PAS de format A4. Format reçu/ticket électronique :
+- Largeur fixe 380px, hauteur automatique selon le contenu
+- Design moderne, épuré, professionnel, lisible sur mobile
+
+Contenu de la facture dans l'ordre :
+1. Nom de la boutique (grand, centré, en haut)
+2. Numéro de facture | Date | Heure
+3. Vendeur : [Nom du revendeur]
+4. Ligne séparatrice
+5. Tableau des articles :
+   Nom de l'article | Qté | Prix unitaire | Sous-total
+6. Ligne séparatrice
+7. TOTAL en grand et en gras
+8. "Merci pour votre confiance !" centré en bas
+9. Si un article Samsung est coché :
+   petite mention "Garantie Samsung 24 mois" en bas
+
+3 templates sélectionnables AVANT génération :
+- "Classic" : fond blanc, texte noir, bordure fine grise
+- "Dark" : fond #1a1a2e, texte blanc, accents #e53e3e
+- "Gold" : fond blanc, accents dorés #c9a84c, touches élégantes
+Chaque template affiché en miniature cliquable
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. BOUTONS D'ACTION
+
+- "Générer la facture" : affiche l'aperçu instantané
+- "Télécharger PNG" : exporte la facture en image via html2canvas
+- "Partager sur WhatsApp" :
+  → Convertit la facture en image PNG via html2canvas
+  → Sur mobile : ouvre directement l'app WhatsApp avec l'image
+  → Sur desktop : ouvre https://web.whatsapp.com
+- "Nouvelle facture" :
+  → Remet tous les articles cochés à zéro
+  → Garde nom boutique + nom revendeur en mémoire
+  → Génère un nouveau numéro de facture automatiquement
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. CONTRAINTES TECHNIQUES
+
+- React + Vite uniquement
+- Aucune base de données, aucun backend, aucun serveur
+- html2canvas pour la conversion en image
+- localStorage pour mémoriser nom boutique et revendeur
+- Tout le reste dans le state React (useState)
+- Le catalogue est un simple tableau JS en haut du fichier,
+  facilement modifiable sans toucher au reste du code
+- Application 100% frontend
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. DÉPLOIEMENT VERCEL
+
+Crée un fichier vercel.json à la racine avec :
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+Assure-toi que le build Vite fonctionne sans erreur avec npm run build.
